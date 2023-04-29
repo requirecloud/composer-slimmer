@@ -31,7 +31,7 @@ class Cleaner
     {
         $file = $this->packagePath . DIRECTORY_SEPARATOR . $fileName;
 
-        $this->io->write('<info>Remove file:</info> <comment> ' . $this->nice($file) . '</comment>');
+        $this->write('Removing file', $file);
 
         if (file_exists($file)) {
             $this->filesystem->remove($file);
@@ -42,9 +42,16 @@ class Cleaner
     {
         $folder = $this->packagePath . DIRECTORY_SEPARATOR . $folderName;
 
-        $this->io->write('<info>Remove folder:</info> <comment>' . $this->nice($folder) . '</comment>');
+        $this->write('Removing folder', $folder);
 
         $this->filesystem->removeDirectory($folder);
+    }
+
+    private function write(string $action, string $target): void
+    {
+        $message = sprintf('- %s <comment>%s</comment>', $action, $this->nice($target));
+
+        $this->io->write($message);
     }
 
     private function nice(string $path): string

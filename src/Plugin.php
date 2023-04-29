@@ -36,10 +36,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public function cleanUp(PackageEvent $event)
     {
-        $packagePath = $this->getPackagePath($this->getPackage($event->getOperation()));
+        $package = $this->getPackage($event->getOperation());
+        $packagePath = $this->getPackagePath($package);
 
         if ($packagePath) {
-            $this->cleaner->clean($packagePath);
+            $this->cleaner->clean($package, $packagePath);
         }
     }
 

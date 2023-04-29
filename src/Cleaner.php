@@ -31,11 +31,10 @@ class Cleaner
     private function removeFile(string $fileName)
     {
         $file = $this->packagePath . DIRECTORY_SEPARATOR . $fileName;
-        $size = $this->filesystem->size($file);
-
-        $this->write('Removing file', $file .' ('. $size .')');
 
         if (file_exists($file)) {
+            $size = $this->filesystem->size($file);
+            $this->write('Removing file', $file .' ('. $size .')');
             $this->filesystem->remove($file);
         }
     }
@@ -43,11 +42,12 @@ class Cleaner
     private function removeFolder(string $folderName)
     {
         $folder = $this->packagePath . DIRECTORY_SEPARATOR . $folderName;
-        $size = $this->filesystem->size($folder);
 
-        $this->write('Removing folder', $folder .' ('. $size .')');
-
-        $this->filesystem->removeDirectory($folder);
+        if (file_exists($folder)) {
+            $size = $this->filesystem->size($folder);
+            $this->write('Removing folder', $folder . ' (' . $size . ')');
+            $this->filesystem->removeDirectory($folder);
+        }
     }
 
     private function write(string $action, string $target): void

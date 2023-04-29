@@ -10,24 +10,17 @@ use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
 use Composer\Package\Package;
 use Composer\Plugin\PluginInterface;
+use Composer\InstalledVersions;
 use Composer\Installer\PackageEvent;
 use Exception;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
+    private Cleaner $cleaner;
+
     public function activate(Composer $composer, IOInterface $io)
     {
-        $io->write('<info>Activate</info>');
-    }
-
-    public function deactivate(Composer $composer, IOInterface $io)
-    {
-        $io->write('<info>Deactivate</info>');
-    }
-
-    public function uninstall(Composer $composer, IOInterface $io)
-    {
-        $io->write('<info>Uninstall</info>');
+        $this->cleaner = new Cleaner($io);
     }
 
     public static function getSubscribedEvents(): array
@@ -38,15 +31,27 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         ];
     }
 
+    /**
+     * @throws Exception
+     */
     public function cleanUp(PackageEvent $event)
     {
-        $package = $this->getTargetPackage($event->getOperation());
-        $package_name = $package->getName();
+        $packagePath = $this->getPackagePath($this->getPackage($event->getOperation()));
 
-        $event->getIO()->write('<info>cleanUp on ' . $package_name . '</info>');
+        if ($packagePath) {
+            $this->cleaner->clean($packagePath);
+        }
     }
 
-    private function getTargetPackage($operation): Package
+    private function getPackagePath(Package $package): ?string
+    {
+        return InstalledVersions::getInstallPath($package->getPrettyName());
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function getPackage($operation): Package
     {
         if ($operation instanceof InstallOperation) {
             return $operation->getPackage();
@@ -57,4 +62,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
         throw new Exception('Unknown operation: ' . get_class($operation));
     }
+
+    public function deactivate(Composer $composer, IOInterface $io) {}
+
+    public function uninstall(Composer $composer, IOInterface $io) {}
 }

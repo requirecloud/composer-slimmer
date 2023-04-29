@@ -33,7 +33,7 @@ class Cleaner
         $file = $this->packagePath . DIRECTORY_SEPARATOR . $fileName;
 
         if (file_exists($file)) {
-            $size = $this->filesystem->size($file);
+            $size = $this->size($this->filesystem->size($file));
             $this->write('Removing file', $file .' ('. $size .')');
             $this->filesystem->remove($file);
         }
@@ -44,7 +44,7 @@ class Cleaner
         $folder = $this->packagePath . DIRECTORY_SEPARATOR . $folderName;
 
         if (file_exists($folder)) {
-            $size = $this->filesystem->size($folder);
+            $size = $this->size($this->filesystem->size($folder));
             $this->write('Removing folder', $folder . ' (' . $size . ')');
             $this->filesystem->removeDirectory($folder);
         }
@@ -60,5 +60,14 @@ class Cleaner
     private function nice(string $path): string
     {
         return str_replace(getcwd() . DIRECTORY_SEPARATOR, '', $this->filesystem->normalizePath($path));
+    }
+
+    private function size(int $bytes, int $dec = 2): string
+    {
+        $size = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        $factor = floor((strlen($bytes) - 1) / 3);
+        if ($factor == 0) $dec = 0;
+
+        return sprintf("%.{$dec}f %s", $bytes / (1024 ** $factor), $size[$factor]);
     }
 }

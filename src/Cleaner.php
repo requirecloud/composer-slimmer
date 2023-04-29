@@ -31,8 +31,9 @@ class Cleaner
     private function removeFile(string $fileName)
     {
         $file = $this->packagePath . DIRECTORY_SEPARATOR . $fileName;
+        $size = $this->filesystem->size($file);
 
-        $this->write('Removing file', $file);
+        $this->write('Removing file', $file .' ('. $size .')');
 
         if (file_exists($file)) {
             $this->filesystem->remove($file);
@@ -42,8 +43,9 @@ class Cleaner
     private function removeFolder(string $folderName)
     {
         $folder = $this->packagePath . DIRECTORY_SEPARATOR . $folderName;
+        $size = $this->filesystem->size($folder);
 
-        $this->write('Removing folder', $folder);
+        $this->write('Removing folder', $folder .' ('. $size .')');
 
         $this->filesystem->removeDirectory($folder);
     }

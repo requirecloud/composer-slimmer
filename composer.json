@@ -10,10 +10,10 @@
   },
   "autoload": {
     "psr-4": {
-      "Druidfi\\": "src/"
+      "Druidfi\\DrupalSlimmer\\": "src/"
     }
   },
   "extra": {
-    "class": "Druidfi\\\\DrupalSlimmer\\\\Plugin"
+    "class": "Druidfi\\DrupalSlimmer\\Plugin"
   }
 }

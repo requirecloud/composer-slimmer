@@ -31,7 +31,7 @@ class Cleaner
     {
         $file = $this->packagePath . DIRECTORY_SEPARATOR . $fileName;
 
-        $this->io->write('<info>Remove file: ' . $this->filesystem->normalizePath($file) . '</info>');
+        $this->io->write('<info>Remove file:</info> <comment> ' . $this->nice($file) . '</comment>');
 
         if (file_exists($file)) {
             $this->filesystem->remove($file);
@@ -42,8 +42,13 @@ class Cleaner
     {
         $folder = $this->packagePath . DIRECTORY_SEPARATOR . $folderName;
 
-        $this->io->write('<info>Remove folder: ' . $this->filesystem->normalizePath($folder) . '</info>');
+        $this->io->write('<info>Remove folder:</info> <comment>' . $this->nice($folder) . '</comment>');
 
         $this->filesystem->removeDirectory($folder);
+    }
+
+    private function nice(string $path): string
+    {
+        return str_replace(getcwd(), '', $this->filesystem->normalizePath($path));
     }
 }

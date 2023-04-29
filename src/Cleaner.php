@@ -24,16 +24,26 @@ class Cleaner
         $this->io->write('<info>cleanUp on ' . $packagePath . '</info>');
 
         $this->removeFile('README.md');
+        $this->removeFolder('tests');
     }
 
     private function removeFile(string $fileName)
     {
         $file = $this->packagePath . DIRECTORY_SEPARATOR . $fileName;
 
-        $this->io->write('<info>Remove file: ' . $file . '</info>');
+        $this->io->write('<info>Remove file: ' . $this->filesystem->normalizePath($file) . '</info>');
 
         if (file_exists($file)) {
             $this->filesystem->remove($file);
         }
+    }
+
+    private function removeFolder(string $folderName)
+    {
+        $folder = $this->packagePath . DIRECTORY_SEPARATOR . $folderName;
+
+        $this->io->write('<info>Remove folder: ' . $this->filesystem->normalizePath($folder) . '</info>');
+
+        $this->filesystem->removeDirectory($folder);
     }
 }

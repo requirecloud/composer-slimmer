@@ -13,7 +13,7 @@ use Composer\Plugin\PluginInterface;
 use Composer\Installer\PackageEvent;
 use Exception;
 
-class TemplateInstallerPlugin implements PluginInterface, EventSubscriberInterface
+class Plugin implements PluginInterface, EventSubscriberInterface
 {
     public function activate(Composer $composer, IOInterface $io)
     {

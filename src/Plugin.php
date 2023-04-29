@@ -12,10 +12,13 @@ use Composer\Package\Package;
 use Composer\Plugin\PluginInterface;
 use Composer\InstalledVersions;
 use Composer\Installer\PackageEvent;
+use Composer\Script\Event;
+use Composer\Script\ScriptEvents;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
     private Cleaner $cleaner;
+    private int $totalSize = 0;
 
     public function activate(Composer $composer, IOInterface $io)
     {
@@ -27,6 +30,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         return [
             PackageEvents::POST_PACKAGE_INSTALL => 'cleanUp',
             PackageEvents::POST_PACKAGE_UPDATE => 'cleanUp',
+            ScriptEvents::POST_UPDATE_CMD => 'end',
+            ScriptEvents::POST_INSTALL_CMD => 'end',
         ];
     }
 
@@ -38,9 +43,14 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             $packagePath = $this->getPackagePath($package);
 
             if ($packagePath) {
-                $this->cleaner->clean($package, $packagePath);
+                $this->totalSize += $this->cleaner->clean($package, $packagePath);
             }
         }
+    }
+
+    public function end(Event $event)
+    {
+        $event->getIO()->write('Total of '. Cleaner::size($this->totalSize) .' was removed.');
     }
 
     private function getPackage($operation): ?Package

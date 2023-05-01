@@ -118,7 +118,7 @@ class Cleaner
 
     private function write(string $action, string $target, int $size): void
     {
-        $message = sprintf('  - %s <comment>%s</comment> (%d)', $action, $this->nice($target), $this->size($size));
+        $message = sprintf('  - %s <comment>%s</comment> (%s)', $action, $this->nice($target), $this->size($size));
 
         $this->io->write($message);
     }

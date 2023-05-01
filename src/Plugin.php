@@ -50,7 +50,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
     public function end(Event $event)
     {
-        $event->getIO()->write('Total of <comment>'. Cleaner::size($this->totalSize) .'</comment> was removed.');
+        if ($this->totalSize > 0) {
+            $message = sprintf('Total of <comment>%s</comment> was removed.', Cleaner::size($this->totalSize));
+
+            $event->getIO()->write($message);
+        }
     }
 
     private function getPackage($operation): ?Package

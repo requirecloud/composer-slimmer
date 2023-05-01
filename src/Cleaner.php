@@ -92,7 +92,11 @@ class Cleaner
 
         if (file_exists($file)) {
             $size = $this->filesystem->size($file);
-            $this->write('Removing file', $file, $size);
+
+            if ($this->io->isVerbose()) {
+                $this->write('Removing file', $file, $size);
+            }
+
             $this->filesystem->remove($file);
 
             return $size;
@@ -107,7 +111,11 @@ class Cleaner
 
         if (file_exists($folder)) {
             $size = $this->filesystem->size($folder);
-            $this->write('Removing folder', $folder, $size);
+
+            if ($this->io->isVerbose()) {
+                $this->write('Removing folder', $folder, $size);
+            }
+
             $this->filesystem->removeDirectory($folder);
 
             return $size;

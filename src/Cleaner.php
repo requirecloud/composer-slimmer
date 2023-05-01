@@ -92,7 +92,7 @@ class Cleaner
 
         if (file_exists($file)) {
             $size = $this->filesystem->size($file);
-            $this->write('Removing file', $file .' ('. $this->size($size) .')');
+            $this->write('Removing file', $file, $size);
             $this->filesystem->remove($file);
 
             return $size;
@@ -107,7 +107,7 @@ class Cleaner
 
         if (file_exists($folder)) {
             $size = $this->filesystem->size($folder);
-            $this->write('Removing folder', $folder . ' (' . $this->size($size) . ')');
+            $this->write('Removing folder', $folder, $size);
             $this->filesystem->removeDirectory($folder);
 
             return $size;
@@ -116,9 +116,9 @@ class Cleaner
         return 0;
     }
 
-    private function write(string $action, string $target): void
+    private function write(string $action, string $target, int $size): void
     {
-        $message = sprintf('  - %s <comment>%s</comment>', $action, $this->nice($target));
+        $message = sprintf('  - %s <comment>%s</comment> (%d)', $action, $this->nice($target), $this->size($size));
 
         $this->io->write($message);
     }

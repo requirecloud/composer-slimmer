@@ -28,8 +28,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            PackageEvents::POST_PACKAGE_INSTALL => ['cleanUp', 20],
-            PackageEvents::POST_PACKAGE_UPDATE => ['cleanUp', 20],
+            PackageEvents::POST_PACKAGE_INSTALL => ['cleanUp', 9],
+            PackageEvents::POST_PACKAGE_UPDATE => ['cleanUp', 9],
             ScriptEvents::POST_UPDATE_CMD => ['end', -20],
             ScriptEvents::POST_INSTALL_CMD => ['end', -20],
         ];

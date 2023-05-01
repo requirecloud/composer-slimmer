@@ -28,10 +28,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            PackageEvents::POST_PACKAGE_INSTALL => 'cleanUp',
-            PackageEvents::POST_PACKAGE_UPDATE => 'cleanUp',
-            ScriptEvents::POST_UPDATE_CMD => 'end',
-            ScriptEvents::POST_INSTALL_CMD => 'end',
+            PackageEvents::POST_PACKAGE_INSTALL => ['cleanUp', 20],
+            PackageEvents::POST_PACKAGE_UPDATE => ['cleanUp', 20],
+            ScriptEvents::POST_UPDATE_CMD => ['end', -20],
+            ScriptEvents::POST_INSTALL_CMD => ['end', -20],
         ];
     }
 
@@ -50,7 +50,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
     public function end(Event $event)
     {
-        $event->getIO()->write('Total of '. Cleaner::size($this->totalSize) .' was removed.');
+        $event->getIO()->write('Total of <comment>'. Cleaner::size($this->totalSize) .'</comment> was removed.');
     }
 
     private function getPackage($operation): ?Package

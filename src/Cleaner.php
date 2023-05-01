@@ -71,7 +71,7 @@ class Cleaner
     {
         $this->packagePath = $packagePath;
 
-        $this->io->write('<info>Clean up on ' . $package->getName() . '</info>');
+        //$this->io->write('<info>Clean up on ' . $package->getName() . '</info>');
 
         $totalSize = 0;
 

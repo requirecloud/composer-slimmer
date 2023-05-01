@@ -12,6 +12,55 @@ class Cleaner
     private Filesystem $filesystem;
     private string $packagePath;
 
+    private array $files = [
+        '.codeclimate.yml',
+        '.csslintrc',
+        '.eslintignore',
+        '.eslintrc',
+        '.eslintrc.json',
+        '.gitattributes',
+        '.gitignore',
+        '.gitlab-ci.yml',
+        '.prettierignore',
+        '.prettierrc.json',
+        '.travis.yml',
+        '.travis-phpcs.sh',
+        'CHANGELOG.md',
+        'CHANGELOG.txt',
+        'CODE_OF_CONDUCT.txt',
+        'CODEOWNERS',
+        'CONTRIBUTING.md',
+        'composer.lock',
+        'docker-compose.yml',
+        'drupalci.yml',
+        'INSTALL.md',
+        'ludwig.json',
+        'NOTES.md',
+        'package.json',
+        'PATCHES.txt',
+        'phpcs.xml',
+        'phpcs.xml.dist',
+        'phpstan.neon.dist',
+        'phpunit.core.xml.dist',
+        'README.md',
+        'README.txt',
+        'UPDATE.md',
+        'webpack.config.js',
+        'yarn.lock',
+    ];
+
+    private array $folders = [
+        '.circleci',
+        '.ddev',
+        '.git',
+        '.github',
+        '.tugboat',
+        'docs',
+        'examples',
+        //'migrations',
+        'tests',
+    ];
+
     public function __construct(IOInterface $io)
     {
         $this->io = $io;
@@ -26,8 +75,13 @@ class Cleaner
 
         $totalSize = 0;
 
-        $totalSize += $this->removeFile('README.md');
-        $totalSize += $this->removeFolder('tests');
+        foreach ($this->files as $file) {
+            $totalSize += $this->removeFile($file);
+        }
+
+        foreach ($this->folders as $folder) {
+            $totalSize += $this->removeFolder($folder);
+        }
 
         return $totalSize;
     }

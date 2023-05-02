@@ -12,9 +12,9 @@ class Cleaner
     private Filesystem $filesystem;
     private string $packagePath;
 
-    private array $files;
-    private array $folders;
-    private array $packages;
+    private array $files = [];
+    private array $folders = [];
+    private array $packages = [];
 
     public function __construct(IOInterface $io)
     {

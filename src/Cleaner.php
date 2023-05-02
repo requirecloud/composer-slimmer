@@ -20,7 +20,7 @@ class Cleaner
         $this->io = $io;
         $this->filesystem = new Filesystem();
 
-        $commonData = require '../data/common.php';
+        $commonData = require __DIR__ . '/../data/common.php';
 
         $this->files = $commonData['files'];
         $this->folders = $commonData['folders'];

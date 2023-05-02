@@ -14,26 +14,30 @@ class Cleaner
 
     private array $files;
     private array $folders;
+    private array $packages;
 
     public function __construct(IOInterface $io)
     {
         $this->io = $io;
         $this->filesystem = new Filesystem();
 
-        $commonData = $this->load('common');
-
-        $this->files = $commonData['files'];
-        $this->folders = $commonData['folders'];
+        $this->load('common');
+        $this->load('drupal');
     }
 
     public function clean(Package $package, string $packagePath): int
     {
-        $this->loadPackageRemovals($package);
         $this->packagePath = $packagePath;
 
         //$this->io->write('<info>Clean up on ' . $package->getName() . '</info>');
 
         $totalSize = 0;
+
+        if (isset($this->packages[$package->getPrettyName()])) {
+            $this->files += $this->packages[$package->getPrettyName()]['files'] ?? [];
+            $this->folders += $this->packages[$package->getPrettyName()]['folders'] ?? [];
+            unset($this->packages[$package->getPrettyName()]);
+        }
 
         foreach ($this->files as $file) {
             $totalSize += $this->removeFile($file);
@@ -44,17 +48,6 @@ class Cleaner
         }
 
         return $totalSize;
-    }
-
-    private function loadPackageRemovals(Package $package)
-    {
-        list($vendor, $packageName) = explode('/', $package->getPrettyName());
-        $data = $this->load($vendor);
-        $packageRemovals = $data[$package->getPrettyName()] ?? [];
-
-        if (!empty($packageRemovals['folders'])) {
-            $this->folders += $packageRemovals['folders'];
-        }
     }
 
     private function removeFile(string $fileName): int
@@ -112,7 +105,11 @@ class Cleaner
         $file = __DIR__ . sprintf('/../data/%s.php', $name);
 
         if (file_exists($file)) {
-            return require $file;
+            $data = require $file;
+
+            $this->files += $data['files'] ?? [];
+            $this->folders += $data['folders'] ?? [];
+            $this->packages += $data['packages'] ?? [];
         }
 
         return [];

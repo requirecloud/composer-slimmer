@@ -12,63 +12,23 @@ class Cleaner
     private Filesystem $filesystem;
     private string $packagePath;
 
-    private array $files = [
-        '.codeclimate.yml',
-        '.csslintrc',
-        '.eslintignore',
-        '.eslintrc',
-        '.eslintrc.json',
-        '.gitattributes',
-        '.gitignore',
-        '.gitlab-ci.yml',
-        '.prettierignore',
-        '.prettierrc.json',
-        '.travis.yml',
-        '.travis-phpcs.sh',
-        'CHANGELOG.md',
-        'CHANGELOG.txt',
-        'CODE_OF_CONDUCT.txt',
-        'CODEOWNERS',
-        'CONTRIBUTING.md',
-        'composer.lock',
-        'docker-compose.yml',
-        'drupalci.yml',
-        'INSTALL.md',
-        'ludwig.json',
-        'NOTES.md',
-        'package.json',
-        'PATCHES.txt',
-        'phpcs.xml',
-        'phpcs.xml.dist',
-        'phpstan.neon.dist',
-        'phpunit.core.xml.dist',
-        'README.md',
-        'README.txt',
-        'UPDATE.md',
-        'webpack.config.js',
-        'yarn.lock',
-    ];
-
-    private array $folders = [
-        '.circleci',
-        '.ddev',
-        '.git',
-        '.github',
-        '.tugboat',
-        'docs',
-        'examples',
-        //'migrations',
-        'tests',
-    ];
+    private array $files;
+    private array $folders;
 
     public function __construct(IOInterface $io)
     {
         $this->io = $io;
         $this->filesystem = new Filesystem();
+
+        $commonData = require '../data/common.php';
+
+        $this->files = $commonData['files'];
+        $this->folders = $commonData['folders'];
     }
 
     public function clean(Package $package, string $packagePath): int
     {
+        $this->loadPackageRemovals($package);
         $this->packagePath = $packagePath;
 
         //$this->io->write('<info>Clean up on ' . $package->getName() . '</info>');
@@ -84,6 +44,11 @@ class Cleaner
         }
 
         return $totalSize;
+    }
+
+    private function loadPackageRemovals(Package $package)
+    {
+
     }
 
     private function removeFile(string $fileName): int

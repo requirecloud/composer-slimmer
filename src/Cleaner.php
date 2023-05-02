@@ -48,7 +48,7 @@ class Cleaner
 
     private function loadPackageRemovals(Package $package)
     {
-        list($vendor, $package) = explode('/', $package->getPrettyName());
+        list($vendor, $packageName) = explode('/', $package->getPrettyName());
         $data = $this->load($vendor);
         $packageRemovals = $data[$package->getPrettyName()] ?? [];
 

@@ -20,7 +20,7 @@ class Cleaner
         $this->io = $io;
         $this->filesystem = new Filesystem();
 
-        $commonData = require __DIR__ . '/../data/common.php';
+        $commonData = $this->load('common');
 
         $this->files = $commonData['files'];
         $this->folders = $commonData['folders'];
@@ -48,7 +48,13 @@ class Cleaner
 
     private function loadPackageRemovals(Package $package)
     {
+        list($vendor, $package) = explode('/', $package->getPrettyName());
+        $data = $this->load($vendor);
+        $packageRemovals = $data[$package->getPrettyName()] ?? [];
 
+        if (!empty($packageRemovals['folders'])) {
+            $this->folders += $packageRemovals['folders'];
+        }
     }
 
     private function removeFile(string $fileName): int
@@ -99,6 +105,17 @@ class Cleaner
     private function nice(string $path): string
     {
         return str_replace(getcwd() . DIRECTORY_SEPARATOR, '', $this->filesystem->normalizePath($path));
+    }
+
+    private function load(string $name): array
+    {
+        $file = __DIR__ . sprintf('/../data/%s.php', $name);
+
+        if (file_exists($file)) {
+            return require $file;
+        }
+
+        return [];
     }
 
     public static function size(int $bytes, int $dec = 2): string

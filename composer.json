@@ -1,6 +1,7 @@
 {
   "name": "druidfi/composer-slimmer",
   "type": "composer-plugin",
+  "license": ["MIT"],
   "require": {
     "php": "^7.4 || ^8.0",
     "composer-plugin-api": "^2.0"

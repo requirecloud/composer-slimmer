@@ -34,8 +34,14 @@ class Cleaner
         $totalSize = 0;
 
         if (isset($this->packages[$package->getPrettyName()])) {
-            $this->files += $this->packages[$package->getPrettyName()]['files'] ?? [];
-            $this->folders += $this->packages[$package->getPrettyName()]['folders'] ?? [];
+            if (isset($this->packages[$package->getPrettyName()]['files'])) {
+                $this->files = array_merge($this->files, $this->packages[$package->getPrettyName()]['files'] ?? []);
+            }
+
+            if (isset($this->packages[$package->getPrettyName()]['folders'])) {
+                $this->folders = array_merge($this->folders, $this->packages[$package->getPrettyName()]['folders'] ?? []);
+            }
+
             unset($this->packages[$package->getPrettyName()]);
         }
 
@@ -43,6 +49,9 @@ class Cleaner
             $totalSize += $this->removeFile($file);
         }
 
+        if ($package->getPrettyName() === 'drupal/core') {
+            var_dump($this->folders);
+        }
         foreach ($this->folders as $folder) {
             $totalSize += $this->removeFolder($folder);
         }

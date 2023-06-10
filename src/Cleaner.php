@@ -131,7 +131,7 @@ class Cleaner
         }
 
         foreach (glob("$dir*", GLOB_ONLYDIR | GLOB_MARK) as $ff) {
-            $this->rglob($ff, $ext);
+            $this->find($ff, $ext);
         }
     }
 

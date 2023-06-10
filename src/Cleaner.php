@@ -33,6 +33,8 @@ class Cleaner
 
         $totalSize = 0;
 
+        $this->find($packagePath,'*.{md,dist,txt}');
+
         if (isset($this->packages[$package->getPrettyName()])) {
             if (isset($this->packages[$package->getPrettyName()]['files'])) {
                 $this->files = array_merge($this->files, $this->packages[$package->getPrettyName()]['files'] ?? []);
@@ -119,6 +121,18 @@ class Cleaner
         }
 
         return [];
+    }
+
+    private function find($dir, $ext = '*') {
+        foreach (glob("$dir$ext", GLOB_BRACE) as $ff) {
+            if (is_file($ff)) {
+                $this->files[] = $ff;
+            }
+        }
+
+        foreach (glob("$dir*", GLOB_ONLYDIR | GLOB_MARK) as $ff) {
+            $this->rglob($ff, $ext);
+        }
     }
 
     public static function size(int $bytes, int $dec = 2): string

@@ -47,5 +47,5 @@ return [
         'examples',
         //'migrations',
         'tests',
-    ]
+    ],
 ];

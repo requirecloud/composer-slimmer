@@ -51,7 +51,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public function end(Event $event)
     {
         if ($this->totalSize > 0) {
-            $message = sprintf('Total of <comment>%s</comment> was removed.', Cleaner::size($this->totalSize));
+            $totalSize = Cleaner::size($this->totalSize);
+            $message = sprintf('> <info>druidfi/composer-slimmer</info>: Total of <comment>%s</comment> was removed.', $totalSize);
 
             $event->getIO()->write($message);
         }

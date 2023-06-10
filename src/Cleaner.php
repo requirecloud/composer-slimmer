@@ -49,9 +49,6 @@ class Cleaner
             $totalSize += $this->removeFile($file);
         }
 
-        if ($package->getPrettyName() === 'drupal/core') {
-            var_dump($this->folders);
-        }
         foreach ($this->folders as $folder) {
             $totalSize += $this->removeFolder($folder);
         }

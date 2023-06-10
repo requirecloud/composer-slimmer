@@ -1,5 +1,5 @@
 {
-  "name": "druidfi/drupal-slimmer",
+  "name": "druidfi/composer-slimmer",
   "type": "composer-plugin",
   "require": {
     "php": "^7.4 || ^8.0",

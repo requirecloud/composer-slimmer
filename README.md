@@ -1,4 +1,4 @@
-# Slimmer Dimmer
+# Composer Slimmer
 
 ## Resources
 

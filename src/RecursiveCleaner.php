@@ -61,54 +61,15 @@ class RecursiveCleaner
                 $folderParts = explode(DIRECTORY_SEPARATOR, $file->getPath());
 
                 if (in_array(end($folderParts), $this->folders)) {
-                    $this->matchingFolders[] = $file->getPathname();
-                    $size = $this->filesystem->size($file->getRealPath());
-
-                    if ($this->io && $this->io->isVerbose()) {
-                        $this->write('Removing folder', $file, $size);
-                    }
-
-                    if ($dry_run) {
-                        echo PHP_EOL . 'DRYRUN: removing folder ' . $file->getPath() . ' <> ' . $size;
-                    } else {
-                        $this->filesystem->remove($file->getRealPath());
-                    }
-
-                    $this->totalSize += $size;
+                    $this->handleItem($file, $dry_run);
                 }
             }
             else {
                 if (in_array($file->getExtension(), $this->extensions)) {
-                    $this->matchingFiles[] = $file->getPathname();
-                    $size = $this->filesystem->size($file->getRealPath());
-
-                    if ($this->io && $this->io->isVerbose()) {
-                        $this->write('Removing file', $file, $size);
-                    }
-
-                    if ($dry_run) {
-                        echo PHP_EOL . 'DRYRUN: removing file ' . $file->getPath() . ' <> ' . $size;
-                    } else {
-                        $this->filesystem->remove($file->getRealPath());
-                    }
-
-                    $this->totalSize += $size;
+                    $this->handleItem($file, $dry_run);
                 }
                 else if (in_array($file->getFilename(), $this->filesToRemove)) {
-                    $this->matchingFiles[] = $file->getPathname();
-                    $size = $this->filesystem->size($file->getRealPath());
-
-                    if ($this->io && $this->io->isVerbose()) {
-                        $this->write('Removing file', $file, $size);
-                    }
-
-                    if ($dry_run) {
-                        echo PHP_EOL . 'DRYRUN: removing file ' . $file->getPath() . ' <> ' . $size;
-                    } else {
-                        $this->filesystem->remove($file->getRealPath());
-                    }
-
-                    $this->totalSize += $size;
+                    $this->handleItem($file, $dry_run);
                 }
             }
         }
@@ -119,5 +80,31 @@ class RecursiveCleaner
     public function getMatchingFolders(): array
     {
         return $this->matchingFolders;
+    }
+
+    private function handleItem($file, $dry_run = false): void
+    {
+        $resource = ($file->isDir()) ? 'folder' : 'file';
+
+        if ($resource === 'folder') {
+            $this->matchingFolders[] = $file->getPathname();
+        }
+        else {
+            $this->matchingFiles[] = $file->getPathname();
+        }
+
+        $size = $this->filesystem->size($file->getRealPath());
+
+        if ($this->io && $this->io->isVerbose()) {
+            $this->write('Removing ' . $resource, $file, $size);
+        }
+
+        if ($dry_run) {
+            echo PHP_EOL . 'DRYRUN: removing ' . $resource . ' ' . $file->getPath() . ' <> ' . $size;
+        } else {
+            $this->filesystem->remove($file->getRealPath());
+        }
+
+        $this->totalSize += $size;
     }
 }

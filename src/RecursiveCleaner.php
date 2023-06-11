@@ -51,7 +51,7 @@ class RecursiveCleaner
             new RecursiveDirectoryIterator($path)
         );
 
-        if (is_array($extra['folders'])) {
+        if (isset($extra['folders']) && is_array($extra['folders'])) {
             $this->folders = array_merge($this->folders, $extra['folders']);
         }
 

@@ -7,14 +7,15 @@
     "composer-plugin-api": "^2.0"
   },
   "require-dev": {
-    "composer/composer": "^2.0"
+    "composer/composer": "^2.0",
+    "phpunit/phpunit": "^10.2"
   },
   "autoload": {
     "psr-4": {
-      "Druidfi\\DrupalSlimmer\\": "src/"
+      "Druidfi\\ComposerSlimmer\\": "src/"
     }
   },
   "extra": {
-    "class": "Druidfi\\DrupalSlimmer\\Plugin"
+    "class": "Druidfi\\ComposerSlimmer\\Plugin"
   }
 }

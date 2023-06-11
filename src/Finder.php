@@ -1,35 +1,30 @@
 <?php
 
-namespace Druidfi\DrupalSlimmer;
+namespace Druidfi\ComposerSlimmer;
 
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use SplFileInfo;
 
 class Finder
 {
-    private array $common;
-
-    public function __construct()
-    {
-        $this->common = require __DIR__ . '/../data/common.php';
-    }
+    private array $foundFiles = [];
+    private array $foundFolders = [];
 
     public function find(string $path): array
     {
         $directory = new RecursiveDirectoryIterator($path);
-        $iterator = new RecursiveIteratorIterator($directory);
-        $files = [];
+        $filter = new RecursiveFilterIterator($directory);
+        $iterator = new RecursiveIteratorIterator($filter);
 
+        /** @var SplFileInfo $item */
         foreach ($iterator as $item) {
-            // Skip directories that are in the common folders list.
-            if ($item->isDir() && in_array($item->getFilename(), $this->common['folders'], true)) {
-                continue;
-            }
-            //if (...custom conditions...) {
-                $files[] = $item->getPathname();
-            //}
+            echo $item->getPathname() . PHP_EOL;
         }
 
-        return $files;
+        return [
+            'files' => $this->foundFiles,
+            'folders' => $this->foundFolders,
+        ];
     }
 }

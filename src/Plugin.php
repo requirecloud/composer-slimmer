@@ -1,6 +1,6 @@
 <?php
 
-namespace Druidfi\DrupalSlimmer;
+namespace Druidfi\ComposerSlimmer;
 
 use Composer\Composer;
 use Composer\DependencyResolver\Operation\InstallOperation;

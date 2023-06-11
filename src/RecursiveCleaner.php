@@ -4,6 +4,7 @@ namespace Druidfi\ComposerSlimmer;
 
 use Composer\IO\IOInterface;
 use Composer\Util\Filesystem;
+use Exception;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -86,14 +87,19 @@ class RecursiveCleaner
     {
         $resource = ($file->isDir()) ? 'folder' : 'file';
 
+        try {
+            $size = $this->filesystem->size($file->getRealPath());
+        }
+        catch (Exception $e) {
+            return;
+        }
+
         if ($resource === 'folder') {
             $this->matchingFolders[] = $file->getPathname();
         }
         else {
             $this->matchingFiles[] = $file->getPathname();
         }
-
-        $size = $this->filesystem->size($file->getRealPath());
 
         if ($this->io && $this->io->isVerbose()) {
             $this->write('Removing ' . $resource, $file, $size);

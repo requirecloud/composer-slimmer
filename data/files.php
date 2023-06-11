@@ -1,0 +1,28 @@
+<?php
+
+return [
+    '.codeclimate.yml',
+    '.csslintrc',
+    '.editorconfig',
+    '.eslintignore',
+    '.eslintrc',
+    '.eslintrc.json',
+    '.gitattributes',
+    '.gitignore',
+    '.gitlab-ci.yml',
+    '.prettierignore',
+    '.prettierrc.json',
+    '.travis.yml',
+    '.travis-phpcs.sh',
+    'CODEOWNERS',
+    'composer.lock',
+    'CREDITS',
+    'docker-compose.yml',
+    'drupalci.yml',
+    'ludwig.json',
+    'package.json',
+    'phpcs.xml',
+    'VERSION',
+    'webpack.config.js',
+    'yarn.lock',
+];

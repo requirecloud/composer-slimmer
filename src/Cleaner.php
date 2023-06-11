@@ -7,7 +7,7 @@ use Composer\Package\Package;
 
 class Cleaner
 {
-    //use UtilsTrait;
+    use UtilsTrait;
 
     private string $packagePath;
 

@@ -11,10 +11,6 @@ class Cleaner
 
     private string $packagePath;
 
-    //private array $files = [];
-    //private array $folders = [];
-    //private array $packages = [];
-
     public function __construct(IOInterface $io)
     {
         $this->io = $io;
@@ -23,21 +19,16 @@ class Cleaner
     public function clean(Package $package, string $packagePath): int
     {
         $this->packagePath = $packagePath;
+        $extra = [];
 
-        /*if (isset($this->packages[$package->getPrettyName()])) {
-            if (isset($this->packages[$package->getPrettyName()]['files'])) {
-                $this->files = array_merge($this->files, $this->packages[$package->getPrettyName()]['files'] ?? []);
-            }
-
-            if (isset($this->packages[$package->getPrettyName()]['folders'])) {
-                $this->folders = array_merge($this->folders, $this->packages[$package->getPrettyName()]['folders'] ?? []);
-            }
-
-            unset($this->packages[$package->getPrettyName()]);
-        }*/
+        if (str_contains($package->getPrettyName(), 'drupal/')) {
+            $this->io->write('<info>Loading Drupal package rules...</info>');
+            $drupalRules = require __DIR__ . '/../data/drupal.php' ?? [];
+            $extra = $drupalRules[$package->getPrettyName()] ?? [];
+        }
 
         $recursiveCleaner = new RecursiveCleaner($this->io);
-        $totalSize = $recursiveCleaner->clean($packagePath);
+        $totalSize = $recursiveCleaner->clean($packagePath, $extra);
 
         return $totalSize;
     }

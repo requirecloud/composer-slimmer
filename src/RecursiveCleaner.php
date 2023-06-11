@@ -47,16 +47,17 @@ class RecursiveCleaner
 
     public function clean(string $path, array $extra = []): int
     {
+        $folders = $extra['folders'] ?? [];
+        $exclude = $extra['exclude'] ?? [];
+
         $rii = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($path)
         );
 
-        if (isset($extra['folders']) && is_array($extra['folders'])) {
-            $this->folders = array_merge($this->folders, $extra['folders']);
-        }
+        $this->folders = array_merge($this->folders, $folders);
 
         foreach ($rii as $file) {
-            if (in_array($file->getFilename(), $extra['exclude'], true)) {
+            if (in_array($file->getFilename(), $exclude, true)) {
                 continue;
             }
 

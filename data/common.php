@@ -27,17 +27,4 @@ return [
         'webpack.config.js',
         'yarn.lock',
     ],
-    'folders' => [
-        '.circleci',
-        '.ddev',
-        '.git',
-        '.github',
-        '.tugboat',
-        'doc',
-        'docs',
-        'examples',
-        //'migrations',
-        'test',
-        'tests',
-    ],
 ];

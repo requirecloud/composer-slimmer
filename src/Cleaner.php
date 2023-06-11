@@ -15,11 +15,13 @@ class Cleaner
     private array $files = [];
     private array $folders = [];
     private array $packages = [];
+    private Finder $finder;
 
     public function __construct(IOInterface $io)
     {
         $this->io = $io;
         $this->filesystem = new Filesystem();
+        $this->finder = new Finder();
 
         $this->load('common');
         $this->load('drupal');
@@ -29,11 +31,7 @@ class Cleaner
     {
         $this->packagePath = $packagePath;
 
-        //$this->io->write('<info>Clean up on ' . $package->getName() . '</info>');
-
         $totalSize = 0;
-
-        $this->find($packagePath,'*.{md,dist,txt}');
 
         if (isset($this->packages[$package->getPrettyName()])) {
             if (isset($this->packages[$package->getPrettyName()]['files'])) {
@@ -47,12 +45,14 @@ class Cleaner
             unset($this->packages[$package->getPrettyName()]);
         }
 
-        foreach ($this->files as $file) {
-            $totalSize += $this->removeFile($file);
-        }
-
         foreach ($this->folders as $folder) {
             $totalSize += $this->removeFolder($folder);
+        }
+
+        $foundFiles = $this->finder->find($packagePath);
+
+        foreach ($this->files as $file) {
+            $totalSize += $this->removeFile($file);
         }
 
         return $totalSize;
@@ -121,18 +121,6 @@ class Cleaner
         }
 
         return [];
-    }
-
-    private function find($dir, $ext = '*') {
-        foreach (glob("$dir$ext", GLOB_BRACE) as $ff) {
-            if (is_file($ff)) {
-                $this->files[] = $ff;
-            }
-        }
-
-        foreach (glob("$dir*", GLOB_ONLYDIR | GLOB_MARK) as $ff) {
-            $this->find($ff, $ext);
-        }
     }
 
     public static function size(int $bytes, int $dec = 2): string

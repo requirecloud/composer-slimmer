@@ -8,6 +8,28 @@
 - Remove files
 - Report the size of removed files and folders
 
+## How to test
+
+Include in the project, accept plugin:
+
+```shell
+composer require druidfi/composer-slimmer:dev-main
+```
+
+Clean projects vendor and other folder loaded by Composer:
+
+```shell
+make clean
+```
+
+Test installing with slimmer plugin (`-v` flag is for verbose output):
+
+```shell
+composer install -v
+```
+
+At the end you should see how much space was saved.
+
 ## Resources
 
 - [Composer issue #1750](https://github.com/composer/composer/issues/1750)

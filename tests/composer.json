@@ -1,12 +1,21 @@
 {
     "require": {
         "cweagans/composer-patches": "^1.7",
-        "druidfi/composer-slimmer": "^0.0.3"
+        "druidfi/composer-slimmer": "@dev"
     },
     "config": {
         "allow-plugins": {
             "cweagans/composer-patches": true,
             "druidfi/composer-slimmer": true
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../",
+            "options": {
+                "symlink": false
+            }
+        }
+    ]
 }

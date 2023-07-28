@@ -21,6 +21,7 @@ class RecursiveCleaner
         '.git',
         '.github',
         '.psalm',
+        '.scenarios.lock',
         '.tugboat',
         'doc',
         'docs',
@@ -30,7 +31,7 @@ class RecursiveCleaner
         'tests',
     ];
 
-    private array $extensions = ['dist', 'md', 'txt'];
+    private array $extensions = ['dist', 'md', 'rst', 'txt'];
     private array $excluded = [];
     private array $filesToRemove;
     private int $totalSize = 0;

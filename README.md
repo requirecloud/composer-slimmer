@@ -3,7 +3,7 @@
 ## Plan of Cleanup
 
 - Remove listed folders (so we don't need to search inside them)
-- Find all files with patterns e.g. *.{md,txt,dist}
+- Find all files with patterns e.g. *.{md,txt,rst,dist}
 - Make list of files to be removed from found files and listed files
 - Remove files
 - Report the size of removed files and folders

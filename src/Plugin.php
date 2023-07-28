@@ -6,12 +6,12 @@ use Composer\Composer;
 use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\DependencyResolver\Operation\UpdateOperation;
 use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\Installer\InstallationManager;
 use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
 use Composer\Package\Package;
 use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
-use Composer\InstalledVersions;
 use Composer\Installer\PackageEvent;
 use Composer\Plugin\PostFileDownloadEvent;
 use Composer\Script\Event;
@@ -21,6 +21,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 {
     private Cleaner $cleaner;
     private int $totalSize = 0;
+    private ?InstallationManager $manager = null;
 
     public function activate(Composer $composer, IOInterface $io): void
     {
@@ -43,7 +44,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $package = $this->getPackage($event->getOperation());
 
         if ($package) {
-            $packagePath = $this->getPackagePath($package);
+            $packagePath = $this->getPackagePath($event, $package);
 
             if ($packagePath) {
                 $this->totalSize += $this->cleaner->clean($package, $packagePath);
@@ -73,9 +74,13 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         return null;
     }
 
-    private function getPackagePath(Package $package): ?string
+    private function getPackagePath(PackageEvent|PostFileDownloadEvent $event, Package $package): ?string
     {
-        return InstalledVersions::getInstallPath($package->getPrettyName());
+        if (!$this->manager) {
+            $this->manager = $event->getComposer()->getInstallationManager();
+        }
+
+        return $this->manager->getInstaller($package->getType())->getInstallPath($package);
     }
 
     public function deactivate(Composer $composer, IOInterface $io) {}

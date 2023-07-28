@@ -13,7 +13,7 @@
 Include in the project, accept plugin:
 
 ```shell
-composer require druidfi/composer-slimmer:dev-main
+composer require druidfi/composer-slimmer
 ```
 
 Clean projects vendor and other folder loaded by Composer:

@@ -12,19 +12,15 @@
 
 ## How to test
 
-Include in the project, accept plugin:
+Require Plugin in the project and accept plugin:
 
 ```shell
 composer require druidfi/composer-slimmer
 ```
 
-Clean projects vendor and other folder loaded by Composer:
+Clean projects vendor and other folders loaded by Composer.
 
-```shell
-make clean
-```
-
-Test installing with slimmer plugin (`-v` flag is for verbose output):
+Then test installing with Composer Slimmer plugin (`-v` flag is for verbose output):
 
 ```shell
 composer install -v

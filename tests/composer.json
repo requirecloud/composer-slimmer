@@ -1,7 +1,9 @@
 {
     "require": {
         "cweagans/composer-patches": "^1.7",
-        "druidfi/composer-slimmer": "@dev"
+        "druidfi/composer-slimmer": "@dev",
+        "drupal/core": "^10",
+        "drupal/admin_toolbar": "3.3.0"
     },
     "config": {
         "allow-plugins": {
@@ -9,7 +11,13 @@
             "druidfi/composer-slimmer": true
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
         {
             "type": "path",
             "url": "../../",

@@ -10,7 +10,6 @@ use Composer\Installer\InstallationManager;
 use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
 use Composer\Package\Package;
-use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Installer\PackageEvent;
 use Composer\Plugin\PostFileDownloadEvent;
@@ -19,6 +18,7 @@ use Composer\Script\ScriptEvents;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
+    private string $statusText = '> <info>druidfi/composer-slimmer</info>: Total of <comment>%s</comment> was removed.';
     private Cleaner $cleaner;
     private int $totalSize = 0;
     private ?InstallationManager $manager = null;
@@ -33,7 +33,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         return [
             PackageEvents::POST_PACKAGE_INSTALL => ['cleanUp', 9],
             PackageEvents::POST_PACKAGE_UPDATE => ['cleanUp', 9],
-            //PluginEvents::POST_FILE_DOWNLOAD => ['cleanUp', 9],
             ScriptEvents::POST_UPDATE_CMD => ['end', -20],
             ScriptEvents::POST_INSTALL_CMD => ['end', -20],
         ];
@@ -44,6 +43,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $package = $this->getPackage($event->getOperation());
 
         if ($package) {
+            $event->getIO()->warning($package->getPrettyName());
             $packagePath = $this->getPackagePath($event, $package);
 
             if ($packagePath) {
@@ -56,9 +56,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     {
         if ($this->totalSize > 0) {
             $totalSize = Cleaner::size($this->totalSize);
-            $message = sprintf('> <info>druidfi/composer-slimmer</info>: Total of <comment>%s</comment> was removed.', $totalSize);
-
-            $event->getIO()->write($message);
+            $event->getIO()->write(sprintf($this->statusText, $totalSize));
         }
     }
 

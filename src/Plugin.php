@@ -13,6 +13,7 @@ use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\InstalledVersions;
 use Composer\Installer\PackageEvent;
+use Composer\Plugin\PostFileDownloadEvent;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 
@@ -21,7 +22,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     private Cleaner $cleaner;
     private int $totalSize = 0;
 
-    public function activate(Composer $composer, IOInterface $io)
+    public function activate(Composer $composer, IOInterface $io): void
     {
         $this->cleaner = new Cleaner($io);
     }
@@ -37,7 +38,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         ];
     }
 
-    public function cleanUp(PackageEvent $event)
+    public function cleanUp(PackageEvent|PostFileDownloadEvent $event): void
     {
         $package = $this->getPackage($event->getOperation());
 
@@ -50,7 +51,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         }
     }
 
-    public function end(Event $event)
+    public function end(Event $event): void
     {
         if ($this->totalSize > 0) {
             $totalSize = Cleaner::size($this->totalSize);

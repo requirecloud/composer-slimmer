@@ -33,8 +33,7 @@ class Cleaner
         }
 
         $recursiveCleaner = new RecursiveCleaner($this->io);
-        $totalSize = $recursiveCleaner->clean($packagePath, $extra);
 
-        return $totalSize;
+        return $recursiveCleaner->clean($packagePath, $extra);
     }
 }

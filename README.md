@@ -1,5 +1,7 @@
 # Composer Slimmer
 
+[![Run tests](https://github.com/druidfi/composer-slimmer/actions/workflows/tests.yml/badge.svg)](https://github.com/druidfi/composer-slimmer/actions/workflows/tests.yml)
+
 ## Plan of Cleanup
 
 - Remove listed folders (so we don't need to search inside them)

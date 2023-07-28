@@ -9,6 +9,7 @@ use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
 use Composer\Package\Package;
+use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\InstalledVersions;
 use Composer\Installer\PackageEvent;
@@ -30,6 +31,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         return [
             PackageEvents::POST_PACKAGE_INSTALL => ['cleanUp', 9],
             PackageEvents::POST_PACKAGE_UPDATE => ['cleanUp', 9],
+            PluginEvents::POST_FILE_DOWNLOAD => ['cleanUp', 9],
             ScriptEvents::POST_UPDATE_CMD => ['end', -20],
             ScriptEvents::POST_INSTALL_CMD => ['end', -20],
         ];

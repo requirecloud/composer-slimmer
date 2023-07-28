@@ -1,0 +1,12 @@
+{
+    "require": {
+        "cweagans/composer-patches": "^1.7",
+        "druidfi/composer-slimmer": "^0.0.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "cweagans/composer-patches": true,
+            "druidfi/composer-slimmer": true
+        }
+    }
+}

@@ -20,15 +20,19 @@ class RecursiveCleaner
         '.ddev',
         '.git',
         '.github',
+        '.idea',
+        '.phpunit.cache',
         '.psalm',
         '.scenarios.lock',
         '.tugboat',
+        '.vscode',
         'doc',
         'docs',
         'examples',
         //'migrations',
         'test',
         'tests',
+        'vendor',
     ];
 
     private array $extensions = ['dist', 'md', 'rst', 'txt'];

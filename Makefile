@@ -5,3 +5,4 @@ test:
 	cp tests/composer.json $(DIR)/composer.json
 	composer --working-dir=$(DIR) install -v
 	composer --working-dir=$(DIR) require drupal/admin_toolbar -v
+	composer --working-dir=$(DIR) require drupal/paragraphs -v

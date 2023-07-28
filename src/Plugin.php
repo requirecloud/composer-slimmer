@@ -43,7 +43,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $package = $this->getPackage($event->getOperation());
 
         if ($package) {
-            $event->getIO()->warning($package->getPrettyName());
             $packagePath = $this->getPackagePath($event, $package);
 
             if ($packagePath) {

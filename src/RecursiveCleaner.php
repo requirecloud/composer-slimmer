@@ -71,7 +71,6 @@ class RecursiveCleaner
                 $relativePath = $this->getRelativePath($path, $file);
 
                 if (in_array($relativePath, $exclude, true)) {
-                    $this->io->warning('Skipping excluded folder ' . $relativePath);
                     continue;
                 }
 

@@ -10,6 +10,7 @@ return [
             'modules.README.txt',
             'profiles.README.txt',
             'themes.README.txt',
+            'assets/vendor',
         ],
         'folders' => [
             'profiles/demo_umami',

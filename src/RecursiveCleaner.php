@@ -69,6 +69,12 @@ class RecursiveCleaner
             /** @var SplFileInfo $file */
             if ($file->isDir() && $file->getFilename() !== '..') {
                 $relativePath = $this->getRelativePath($path, $file);
+
+                if (in_array($relativePath, $exclude, true)) {
+                    $this->io->warning('Skipping excluded folder ' . $relativePath);
+                    continue;
+                }
+
                 $folderParts = explode(DIRECTORY_SEPARATOR, $file->getPath());
 
                 if (in_array($relativePath, $this->folders, true) ||

@@ -22,8 +22,9 @@ class Cleaner
     {
         $this->packagePath = $packagePath;
         $extra = [];
+        [$vendor, $packageName] = explode('/', $package->getPrettyName());
 
-        if (str_contains($package->getPrettyName(), 'drupal/')) {
+        if (in_array($vendor, ['drupal', 'drush'])) {
             if (empty($this->extras['drupal'])) {
                 $this->io->write('<info>Loading Drupal package rules...</info>');
                 $this->extras['drupal'] = require __DIR__ . '/../data/drupal.php' ?? [];

@@ -83,4 +83,9 @@ return [
             'modules/webform_examples_accessibility',
         ]
     ],
+    'drush/drush' => [
+        'exclude' => [
+            'README.md', // https://github.com/druidfi/composer-slimmer/issues/5
+        ]
+    ]
 ];

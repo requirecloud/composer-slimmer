@@ -9,7 +9,7 @@ PHONY += --install
 	composer --working-dir=$(DIR) require drupal/paragraphs -v
 
 PHONY += test
-test: --install
+test: --install assert
 
 PHONY += assert
 assert: VENDOR := $(DIR)/vendor

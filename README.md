@@ -14,7 +14,7 @@
 
 Require Plugin in the project and accept plugin:
 
-```shell
+```console
 composer require druidfi/composer-slimmer
 ```
 
@@ -22,7 +22,7 @@ Clean projects vendor and other folders loaded by Composer.
 
 Then test installing with Composer Slimmer plugin (`-v` flag is for verbose output):
 
-```shell
+```console
 composer install -v
 ```
 

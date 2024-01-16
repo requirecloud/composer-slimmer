@@ -6,10 +6,14 @@ PHONY += --install
 	cp tests/composer.json $(DIR)/composer.json
 	composer --working-dir=$(DIR) install -v
 	composer --working-dir=$(DIR) require drupal/admin_toolbar -v
+	composer --working-dir=$(DIR) require drupal/paragraphs:1.16 -v
+
+PHONY += --update
+--update:
 	composer --working-dir=$(DIR) require drupal/paragraphs -v
 
 PHONY += test
-test: --install assert
+test: --install assert --update
 
 PHONY += assert
 assert: VENDOR := $(DIR)/vendor

@@ -3,7 +3,7 @@
         "cweagans/composer-patches": "^1.7",
         "druidfi/composer-slimmer": "@dev",
         "drupal/core": "^10",
-        "drupal/admin_toolbar": "3.3.0",
+        "drupal/admin_toolbar": "3.6.2",
         "drush/drush": "^11"
     },
     "config": {

@@ -52,6 +52,11 @@ class RecursiveCleaner
 
     public function clean(string $path, array $extra = []): int
     {
+        // Reset state for each run
+        $this->matchingFolders = [];
+        $this->matchingFiles = [];
+        $this->totalSize = 0;
+
         $folders = $extra['folders'] ?? [];
         $exclude = $extra['exclude'] ?? [];
 
@@ -68,6 +73,7 @@ class RecursiveCleaner
 
         $this->folders = array_merge($this->folders, $folders);
 
+        // First pass: collect matches only (do not delete while traversing)
         foreach ($rii as $file) {
             if (in_array($file->getFilename(), $exclude, true)) {
                 continue;
@@ -98,6 +104,31 @@ class RecursiveCleaner
             }
         }
 
+        // Second pass: delete collected items safely after traversal
+        // Remove files first
+        foreach ($this->matchingFiles as $filePath) {
+            if (is_file($filePath)) {
+                try {
+                    $this->filesystem->remove($filePath);
+                } catch (Exception $e) {
+                    // ignore and continue
+                }
+            }
+        }
+        // Then remove folders deepest first
+        usort($this->matchingFolders, static function (string $a, string $b): int {
+            return substr_count($b, DIRECTORY_SEPARATOR) <=> substr_count($a, DIRECTORY_SEPARATOR);
+        });
+        foreach ($this->matchingFolders as $dirPath) {
+            if (is_dir($dirPath)) {
+                try {
+                    $this->filesystem->remove($dirPath);
+                } catch (Exception $e) {
+                    // ignore and continue
+                }
+            }
+        }
+
         return $this->totalSize;
     }
 
@@ -117,6 +148,7 @@ class RecursiveCleaner
             return;
         }
 
+        // Collect matches for deletion after traversal
         if ($resource === 'folder') {
             $this->matchingFolders[] = $file->getPathname();
         }
@@ -125,15 +157,10 @@ class RecursiveCleaner
         }
 
         if ($this->io && $this->io->isVerbose()) {
-            $this->write('Removing ' . $resource, $file, $size);
+            $this->write('Matched ' . $resource, $file, $size);
         }
 
-        if ($this->dryRun) {
-            echo PHP_EOL . 'DRYRUN: removing ' . $resource . ' ' . $file->getPath() . ' <> ' . $size;
-        } else {
-            $this->filesystem->remove($file->getRealPath());
-        }
-
+        // Track total size of items to be removed; actual deletion occurs later
         $this->totalSize += $size;
     }
 

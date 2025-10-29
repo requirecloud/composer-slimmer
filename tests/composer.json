@@ -9,7 +9,7 @@
     "config": {
         "allow-plugins": {
             "cweagans/composer-patches": true,
-            "druidfi/composer-slimmer": true
+            "requirecloud/composer-slimmer": true
         }
     },
     "minimum-stability": "dev",

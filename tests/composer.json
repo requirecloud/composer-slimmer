@@ -4,7 +4,7 @@
         "druidfi/composer-slimmer": "@dev",
         "drupal/core": "^10",
         "drupal/admin_toolbar": "3.3.0",
-        "drush/drush": "^11"
+        "drush/drush": "^13"
     },
     "config": {
         "allow-plugins": {

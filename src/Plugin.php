@@ -18,7 +18,7 @@ use Composer\Script\ScriptEvents;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
-    private string $statusText = '> <info>druidfi/composer-slimmer</info>: Total of <comment>%s</comment> was removed.';
+    private string $statusText = '> <info>requirecloud/composer-slimmer</info>: Total of <comment>%s</comment> was removed.';
     private Cleaner $cleaner;
     private int $totalSize = 0;
     private ?InstallationManager $manager = null;

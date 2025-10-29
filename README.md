@@ -1,6 +1,6 @@
 # Composer Slimmer
 
-[![Run tests](https://github.com/druidfi/composer-slimmer/actions/workflows/tests.yml/badge.svg)](https://github.com/druidfi/composer-slimmer/actions/workflows/tests.yml)
+[![Run tests](https://github.com/requirecloud/composer-slimmer/actions/workflows/tests.yml/badge.svg)](https://github.com/requirecloud/composer-slimmer/actions/workflows/tests.yml)
 
 ## Plan of Cleanup
 

@@ -86,7 +86,7 @@ return [
     ],
     'drush/drush' => [
         'exclude' => [
-            'README.md', // https://github.com/druidfi/composer-slimmer/issues/5
+            'README.md', // https://github.com/requirecloud/composer-slimmer/issues/5
         ]
     ]
 ];

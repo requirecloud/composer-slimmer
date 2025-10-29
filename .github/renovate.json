@@ -1,0 +1,21 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":configMigration"
+  ],
+  "timezone": "Europe/Helsinki",
+  "schedule": [
+    "after 10pm every weekday",
+    "every weekend",
+    "before 5am every weekday"
+  ],
+  "baseBranchPatterns": [
+    "main"
+  ],
+  "ignorePaths": [
+    "tests"
+  ],
+  "enabled": true
+}

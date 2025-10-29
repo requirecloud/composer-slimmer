@@ -2,9 +2,9 @@
     "require": {
         "cweagans/composer-patches": "^1.7",
         "druidfi/composer-slimmer": "@dev",
-        "drupal/core": "^11",
+        "drupal/core": "^10",
         "drupal/admin_toolbar": "^3",
-        "drush/drush": "^13"
+        "drush/drush": "^12"
     },
     "config": {
         "allow-plugins": {

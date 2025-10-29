@@ -43,7 +43,7 @@ class RecursiveCleaner
     private array $matchingFiles = [];
     private bool $dryRun = false;
 
-    public function __construct(IOInterface $io = null)
+    public function __construct(?IOInterface $io = null)
     {
         $this->io = $io;
         $this->filesystem = new Filesystem();
@@ -55,8 +55,15 @@ class RecursiveCleaner
         $folders = $extra['folders'] ?? [];
         $exclude = $extra['exclude'] ?? [];
 
+        $directoryIterator = new RecursiveDirectoryIterator(
+            $path,
+            \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_FILEINFO
+        );
+
         $rii = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($path)
+            $directoryIterator,
+            RecursiveIteratorIterator::CHILD_FIRST,
+            RecursiveIteratorIterator::CATCH_GET_CHILD
         );
 
         $this->folders = array_merge($this->folders, $folders);

@@ -15,7 +15,7 @@
 Require Plugin in the project and accept plugin:
 
 ```console
-composer require druidfi/composer-slimmer
+composer require requirecloud/composer-slimmer
 ```
 
 Clean projects vendor and other folders loaded by Composer.

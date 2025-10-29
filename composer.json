@@ -1,9 +1,9 @@
 {
-  "name": "druidfi/composer-slimmer",
+  "name": "requirecloud/composer-slimmer",
   "type": "composer-plugin",
   "license": ["MIT"],
   "require": {
-    "php": "^8.0",
+    "php": "^8.1",
     "composer-plugin-api": "^2.0"
   },
   "require-dev": {

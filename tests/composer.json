@@ -1,7 +1,7 @@
 {
     "require": {
         "cweagans/composer-patches": "^1.7",
-        "druidfi/composer-slimmer": "@dev",
+        "requirecloud/composer-slimmer": "@dev",
         "drupal/core": "^10",
         "drupal/admin_toolbar": "^3",
         "drush/drush": "^12"
